@@ -6,15 +6,20 @@ services:
     container_name: "postgresdb"
     environment:
       POSTGRES_DB: filmsdb
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
-      - ./db:/var/lib/postgresql/data/
+      - ./db:/data/db
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
   django:
     build: .
-    command: bash -c "python3 filmsapi/manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python3 filmsapi/manage.py migrate &&
+                      python3 filmsapi/manage.py runserver 0.0.0.0:8000"
     container_name: "django"
     restart: always
     volumes:
@@ -23,3 +28,5 @@ services:
       - "8000:8000"
     depends_on:
       - postgresdb
+volumes:
+  data:
