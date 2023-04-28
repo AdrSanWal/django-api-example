@@ -1,6 +1,4 @@
-from typing import Type
 from django.db import models
-from django.db.models.options import Options
 
 
 class Category(models.Model):
@@ -47,7 +45,7 @@ class Film(models.Model):
     category = models.ManyToManyField(to=Category, related_name='rel_category')
     duration = models.CharField(max_length=10)
     score = models.CharField(max_length=5)
-    description = models.CharField()
+    description = models.TextField()
     director = models.ManyToManyField(to=Person, related_name='rel_director')
     characters = models.ManyToManyField(to=Person, related_name='rel_characters')
     screenplay = models.ManyToManyField(to=Person, related_name='rel_screenplay')
