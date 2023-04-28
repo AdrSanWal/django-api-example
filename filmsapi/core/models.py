@@ -5,6 +5,9 @@ class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ["pk"]
         verbose_name = "category"
@@ -20,12 +23,12 @@ class Person(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     principal_role = models.CharField(max_length=50)
     birth_date = models.DateField()
-    age = models.PositiveBigIntegerField()
+    age = models.PositiveIntegerField()
     birth_place = models.CharField(max_length=150)
     biography = models.TextField()
 
     def __str__(self):
-        return f'{self._id} - {self.name}'
+        return f'{self.pk} - {self.name}'
 
     class Meta:
         ordering = ["pk"]
@@ -42,7 +45,8 @@ class Film(models.Model):
     income = models.IntegerField(verbose_name='Ingresos', null=True, blank=True)
     year = models.DateField()
     image = models.URLField()
-    category = models.ManyToManyField(to=Category, related_name='rel_category')
+    category = models.ManyToManyField(to=Category,
+                                      related_name='rel_category')
     duration = models.CharField(max_length=10)
     score = models.CharField(max_length=5)
     description = models.TextField()
@@ -57,6 +61,9 @@ class Film(models.Model):
     @property
     def only_year(self):
         return self.year.strftime('%Y')
+
+    def save(self):
+        print('se está salvando')
 
     class Meta:
         ordering = ["pk"]
