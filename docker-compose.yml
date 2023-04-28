@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  postgresdb:
+    image: postgres:15.2
+    container_name: "postgresdb"
+    environment:
+      POSTGRES_DB: filmsdb
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./db:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+  django:
+    build: .
+    command: bash -c "python3 filmsapi/manage.py runserver 0.0.0.0:8000"
+    container_name: "django"
+    restart: always
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgresdb
