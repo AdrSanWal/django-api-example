@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM python:3.11
+FROM python:3.10
 
 # ensures python output is sent straight to terminal
 ENV PYTHONUNBUFFERED 1

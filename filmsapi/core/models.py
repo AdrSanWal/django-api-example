@@ -1,11 +1,12 @@
-from typing import Type
 from django.db import models
-from django.db.models.options import Options
 
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ["pk"]
@@ -14,20 +15,20 @@ class Category(models.Model):
 
 
 class Person(models.Model):
-    GENDER_CHOICES = [("M", "Masculino"), ("F", "Femenino")]
+    GENDER_CHOICES = [("M", "Masculino"), ("F", "Femenino"), ("N", "No definido")]
 
     name = models.CharField(max_length=50)
-    # photo = fields.ImageField(upload_to='../persons/%Y%m%d/', null=True, blank=True)
-    photo = models.URLField()
+    photo = models.URLField(null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     principal_role = models.CharField(max_length=50)
-    birth_date = models.DateField()
-    age = models.PositiveBigIntegerField()
-    birth_place = models.CharField(max_length=150)
-    biography = models.TextField()
+    birth_date = models.DateField(null=True, blank=True)
+    death_date = models.DateField(null=True, blank=True)
+    age = models.PositiveIntegerField(null=True, blank=True)
+    birth_place = models.CharField(max_length=150, null=True, blank=True)
+    biography = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return f'{self._id} - {self.name}'
+        return f'{self.pk} - {self.name}'
 
     class Meta:
         ordering = ["pk"]
@@ -38,16 +39,22 @@ class Person(models.Model):
 class Film(models.Model):
     title = models.CharField(max_length=150)
     original_title = models.CharField(max_length=150)
-    state = models.CharField(max_length=10)
-    original_language = models.CharField(max_length=10)
-    budget = models.IntegerField(verbose_name='Presupuesto', null=True, blank=True)
-    income = models.IntegerField(verbose_name='Ingresos', null=True, blank=True)
+    state = models.CharField(max_length=20)
+    original_language = models.CharField(max_length=50)
+    budget = models.CharField(max_length=20,
+                              verbose_name='Presupuesto',
+                              null=True, blank=True)
+    income = models.CharField(max_length=20,
+                              verbose_name='Ingresos',
+                              null=True, blank=True)
     year = models.DateField()
     image = models.URLField()
-    category = models.ManyToManyField(to=Category, related_name='rel_category')
-    duration = models.CharField(max_length=10)
+    certification = models.CharField(max_length=10, null=True, blank=True)
+    overview = models.TextField(null=True, blank=True)
+    category = models.ManyToManyField(to=Category,
+                                      related_name='rel_category')
+    duration = models.CharField(max_length=10, null=True, blank=True)
     score = models.CharField(max_length=5)
-    description = models.CharField()
     director = models.ManyToManyField(to=Person, related_name='rel_director')
     characters = models.ManyToManyField(to=Person, related_name='rel_characters')
     screenplay = models.ManyToManyField(to=Person, related_name='rel_screenplay')
