@@ -47,13 +47,18 @@ class FilmSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         self.many_to_many_representation(instance, representation)
-        # categories = CategorySerializer(instance.category, many=True).data
-        # director = PersonSerializer(instance.director, many=True).data
-        # representation['category'] = [{"id": d['id'], "name": d['name']} for d in categories]
-        # representation['director'] = [{"id": d['id'], "name": d['name']} for d in director]
         return representation
 
     class Meta:
         model = Film
+        fields = '__all__'
+        read_only_fields = ('pk',)
+
+
+class FilmPeopleSerializer(serializers.ModelSerializer):
+    # director = PersonSerializer(many=True)
+
+    class Meta:
+        model = Person
         fields = '__all__'
         read_only_fields = ('pk',)
