@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from authEndpoints.serializers import CustomUserSerializer, LoginSerializer
 from core.models import CustomUser
-from endpoints.views import CategoryViewSet, PersonViewSet, FilmViewSet
+from endpoints.views import CategoryViewSet, PersonViewSet, FilmViewSet, CustomUserViewSet
 
 
 class AuthCategoryViewSet(CategoryViewSet):
@@ -22,6 +22,10 @@ class AuthPersonViewSet(PersonViewSet):
 
 
 class AuthFilmViewSet(FilmViewSet):
+    permission_classes = [IsAuthenticated]
+
+
+class AuthCustomUserViewSet(CustomUserViewSet):
     permission_classes = [IsAuthenticated]
 
 
@@ -46,7 +50,6 @@ class SignInView(APIView):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
-
 
 
 class LoginView(ObtainAuthToken):

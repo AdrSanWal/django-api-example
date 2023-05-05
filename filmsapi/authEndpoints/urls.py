@@ -10,6 +10,7 @@ router = DefaultRouter()
 router.register('categories', views.AuthCategoryViewSet)
 router.register('people', views.AuthPersonViewSet)
 router.register('films', views.AuthFilmViewSet)
+router.register('users', views.AuthCustomUserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
