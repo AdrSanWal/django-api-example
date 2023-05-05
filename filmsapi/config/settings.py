@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
     'rest_framework',
+    'authEndpoints',
     'endpoints',
     'core',
 ]
@@ -97,12 +99,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 10,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'core.validators.UppercaseValidator',  # Personal password validators
     },
 ]
 
@@ -129,9 +137,19 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Custom User
+
+AUTH_USER_MODEL = "core.CustomUser"
+
 # Pagination
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'endpoints.pagination.CustomPagination',
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 20,
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ]
 }

@@ -2,7 +2,7 @@ from rest_framework import serializers, status
 from rest_framework.fields import empty
 from rest_framework.response import Response
 
-from core.models import Category, Person, Film
+from core.models import Category, Person, Film, CustomUser
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -47,13 +47,16 @@ class FilmSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         self.many_to_many_representation(instance, representation)
-        # categories = CategorySerializer(instance.category, many=True).data
-        # director = PersonSerializer(instance.director, many=True).data
-        # representation['category'] = [{"id": d['id'], "name": d['name']} for d in categories]
-        # representation['director'] = [{"id": d['id'], "name": d['name']} for d in director]
         return representation
 
     class Meta:
         model = Film
         fields = '__all__'
+        read_only_fields = ('pk',)
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        exclude = ('password', )
         read_only_fields = ('pk',)
