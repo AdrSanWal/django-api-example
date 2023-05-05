@@ -48,6 +48,7 @@ class SignInView(APIView):
             )
 
 
+
 class LoginView(ObtainAuthToken):
     serializer_class = LoginSerializer
 

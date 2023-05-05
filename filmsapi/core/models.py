@@ -1,9 +1,16 @@
+from typing import Iterable, Optional
+from django.conf import settings
+from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from rest_framework.authtoken.models import Token
 
 
 class CustomUserManager(BaseUserManager):
@@ -11,6 +18,7 @@ class CustomUserManager(BaseUserManager):
     Custom user model manager. The email is the field
     for authentication instead of username.
     """
+
     def create_user(self, email, password, **extra_fields):
         """
         Create and save a user with the given email and password.
@@ -45,6 +53,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
+
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=25)
 
@@ -52,6 +61,12 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['username']
 
     objects = CustomUserManager()
+
+    # Automatically creates a token for the newly created user
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def create_auth_token(sender, instance=None, created=False, **kwargs):
+        if created:
+            Token.objects.create(user=instance)
 
     def __str__(self):
         return self.email

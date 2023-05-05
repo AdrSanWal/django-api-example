@@ -2,7 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter
 
 from endpoints import serializers, pagination
-from core.models import Category, Person, Film
+from core.models import Category, Person, Film, CustomUser
 
 
 class CategoryViewSet(ModelViewSet):
@@ -35,4 +35,17 @@ class FilmViewSet(ModelViewSet):
         request = self.request.GET
         if 'q' in request:
             self.queryset = self.queryset.filter(title__icontains=request['q'])
+        return self.queryset
+
+
+class CustomUserViewSet(ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = serializers.CustomUserSerializer
+    pagination_class = pagination.CustomPagination
+    filter_backends = (OrderingFilter,)
+
+    def get_queryset(self):
+        request = self.request.GET
+        if 'q' in request:
+            self.queryset = self.queryset.filter(username__icontains=request['q'])
         return self.queryset

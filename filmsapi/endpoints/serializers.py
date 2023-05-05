@@ -2,7 +2,7 @@ from rest_framework import serializers, status
 from rest_framework.fields import empty
 from rest_framework.response import Response
 
-from core.models import Category, Person, Film
+from core.models import Category, Person, Film, CustomUser
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -55,10 +55,8 @@ class FilmSerializer(serializers.ModelSerializer):
         read_only_fields = ('pk',)
 
 
-class FilmPeopleSerializer(serializers.ModelSerializer):
-    # director = PersonSerializer(many=True)
-
+class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Person
-        fields = '__all__'
+        model = CustomUser
+        exclude = ('password', )
         read_only_fields = ('pk',)
