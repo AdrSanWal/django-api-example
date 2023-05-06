@@ -150,6 +150,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "core.CustomUser"
 
+
 # Pagination
 
 REST_FRAMEWORK = {
@@ -159,6 +160,10 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.IsAuthenticated',
     # ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication'
+        'authEndpoints.authentication.CustomTokenAuthentication'
     ]
 }
+
+# Token expiration time in seconds
+
+TOKEN_EXPIRATION_TIME = 108_000

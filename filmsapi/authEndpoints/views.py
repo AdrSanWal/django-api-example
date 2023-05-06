@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.authentication import get_authorization_header
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -52,7 +53,6 @@ class LoginView(APIView):
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
-        print(request.user)
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
         serializer.is_valid(raise_exception=True)
@@ -75,9 +75,9 @@ class LogOutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        print(get_authorization_header(request))
         _, token = request.headers['Authorization'].split(' ')
         token = Token.objects.filter(key=token).first()
-        print(token)
         token.delete()
         return Response({'token_message': 'Token eliminado'},
                         status=status.HTTP_200_OK)
