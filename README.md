@@ -18,7 +18,7 @@ Instrucciones:
     
 3º Rellena la base de datos con unos cuantos ejemplos:
   
-   docker exec django python3 filmsapi/manage.py loaddata data.json
+    docker exec django python3 filmsapi/manage.py loaddata data.json
   
 API:
 =
