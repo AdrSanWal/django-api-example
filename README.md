@@ -19,12 +19,16 @@ Instrucciones:
 3º Rellena la base de datos con unos cuantos ejemplos:
   
     docker exec django python3 filmsapi/manage.py loaddata data.json
+    
+Si quieres rellenar la base datos con más ejemplos, puedes hacerlo con mi repositorio (https://github.com/AdrSanWal/scraping-tmdb)
   
 API:
 =
   
 Puedes consultar la api sin restricciones en http://localhost:8000/api/
 
-O utilizar rutas que requieren autenticacion en http://localhost:8000/api/auth
+O crear un usuario (http://localhost:8000/api/signin) y registrarte (http://localhost:8000/api/login)
+
+para utilizar rutas que requieren autenticacion en http://localhost:8000/api/auth
 
 Consulta la documentación (con el contenedor en marcha) en /api/docs o /api/redocs
