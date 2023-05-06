@@ -18,12 +18,12 @@ Instrucciones:
     
 3º Rellena la base de datos con unos cuantos ejemplos:
   
-  docker exec django python3 filmsapi/manage.py loaddata data.json
+   docker exec django python3 filmsapi/manage.py loaddata data.json
   
 API:
 =
   
-Puedes consultar la api sin restricciones en http://localhost:8000/api/
+Puedes consultar la api sin restricciones en http://localhost:8000/api/\n
 O utilizar rutas que requieren autenticacion en http://localhost:8000/api/auth
 
-Consulta la documentación (con el contenedor en marcha) en 
+Consulta la documentación (con el contenedor en marcha) en /api/docs o /api/redocs
