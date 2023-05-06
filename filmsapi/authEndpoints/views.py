@@ -1,9 +1,5 @@
-from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import check_password
-
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -52,16 +48,36 @@ class SignInView(APIView):
             )
 
 
-class LoginView(ObtainAuthToken):
+class LoginView(APIView):
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
+        print(request.user)
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
         serializer.is_valid(raise_exception=True)
-        user = CustomUser.objects.get_or_none(email=request.data.get('email'))
+        user = serializer.validated_data['user']
+
         token, created = Token.objects.get_or_create(user=user)
+
+        # update token
+        if not created:
+            token.delete()
+            token, created = Token.objects.get_or_create(user=user)
 
         return Response({
             "email": user.email,
             "token": token.key
         })
+
+
+class LogOutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        _, token = request.headers['Authorization'].split(' ')
+        token = Token.objects.filter(key=token).first()
+        print(token)
+        token.delete()
+        return Response({'token_message': 'Token eliminado'},
+                        status=status.HTTP_200_OK)
