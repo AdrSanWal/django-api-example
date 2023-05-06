@@ -23,7 +23,8 @@ Instrucciones:
 API:
 =
   
-Puedes consultar la api sin restricciones en http://localhost:8000/api/\n
+Puedes consultar la api sin restricciones en http://localhost:8000/api/
+
 O utilizar rutas que requieren autenticacion en http://localhost:8000/api/auth
 
 Consulta la documentación (con el contenedor en marcha) en /api/docs o /api/redocs
