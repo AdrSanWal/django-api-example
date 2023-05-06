@@ -20,4 +20,10 @@ Instrucciones:
   
   docker exec django python3 filmsapi/manage.py loaddata data.json
   
-Puedes consultar la api en http://localhost:8000/api/
+API:
+=
+  
+Puedes consultar la api sin restricciones en http://localhost:8000/api/
+O utilizar rutas que requieren autenticacion en http://localhost:8000/api/auth
+
+Consulta la documentación (con el contenedor en marcha) en 
