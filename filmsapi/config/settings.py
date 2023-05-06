@@ -42,6 +42,7 @@ DJANGO_APPS = [
 THIRD_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
+    'drf_yasg',
 ]
 
 LOCAL_APPS = [
@@ -67,7 +68,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -156,9 +157,7 @@ AUTH_USER_MODEL = "core.CustomUser"
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'endpoints.pagination.CustomPagination',
     'PAGE_SIZE': 20,
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ],
+
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'authEndpoints.authentication.CustomTokenAuthentication'
     ]
