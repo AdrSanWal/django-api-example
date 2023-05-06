@@ -30,19 +30,28 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+THIRD_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
+    'drf_yasg',
+]
+
+LOCAL_APPS = [
     'authEndpoints',
     'endpoints',
     'core',
 ]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,6 +80,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -141,15 +151,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "core.CustomUser"
 
+
 # Pagination
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'endpoints.pagination.CustomPagination',
     'PAGE_SIZE': 20,
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ],
+
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication'
+        'authEndpoints.authentication.CustomTokenAuthentication'
     ]
 }
+
+# Token expiration time in seconds
+
+TOKEN_EXPIRATION_TIME = 108_000

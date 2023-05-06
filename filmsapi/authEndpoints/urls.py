@@ -7,13 +7,14 @@ from authEndpoints import views
 app_name = 'authEndpoints'
 
 router = DefaultRouter()
-router.register('categories', views.AuthCategoryViewSet)
-router.register('people', views.AuthPersonViewSet)
-router.register('films', views.AuthFilmViewSet)
-router.register('users', views.AuthCustomUserViewSet)
+router.register('auth-categories', views.AuthCategoryViewSet)
+router.register('auth-people', views.AuthPersonViewSet)
+router.register('auth-films', views.AuthFilmViewSet)
+router.register('auth-users', views.AuthCustomUserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('login', views.LoginView.as_view(), name='login'),
-    path('signin', views.SignInView.as_view(), name='signin')
+    path('auth/login', views.LoginView.as_view(), name='login'),
+    path('auth/logout', views.LogOutView.as_view(), name='logout'),
+    path('auth/signin', views.SignInView.as_view(), name='signin')
 ]

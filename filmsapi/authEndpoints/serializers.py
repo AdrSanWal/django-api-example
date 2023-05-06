@@ -1,21 +1,25 @@
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
-
 from rest_framework import serializers
 
 from core.models import CustomUser
 
 
 class LoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    email = serializers.CharField()
     password = serializers.CharField()
 
     def validate(self, attrs):
-        if (user := CustomUser.objects.get_or_none(email=attrs['email'])):
-            if check_password(attrs['password'], user.password):
-                return attrs
-            raise serializers.ValidationError({'password': _("Contraseña incorrecta")})
-        raise serializers.ValidationError({'email': _("El email no existe")})
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        user = authenticate(request=self.context.get('request'),
+                            username=email, password=password)
+        if not user:
+            raise serializers.ValidationError(_('email o contraseña incorrectos'))
+
+        attrs['user'] = user
+        return attrs
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
