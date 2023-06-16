@@ -27,8 +27,8 @@ API:
   
 Puedes consultar la api sin restricciones en http://localhost:8000/api/
 
-O crear un usuario (http://localhost:8000/api/signin) y registrarte (http://localhost:8000/api/login)
+O crear un usuario (http://localhost:8000/api/auth/signin) y registrarte (http://localhost:8000/api/auth/login)
 
 para utilizar rutas que requieren autenticacion en http://localhost:8000/api/auth
 
-Consulta la documentación (con el contenedor en marcha) en /api/docs o /api/redocs
+Consulta la documentación (con el contenedor en marcha) en http://localhost:8000/api/docs o http://localhost:8000/api/redocs
