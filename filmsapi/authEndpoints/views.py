@@ -38,7 +38,6 @@ class SignInView(APIView):
         if serializer.is_valid():
             username = serializer.validated_data.get('username')
             # the password2 field is deleted to allow us to create the user
-            request.data.pop('password2')
             serializer.create(request.data)
             message = f'Usuario {username} creado'
             return Response({'message': message})
@@ -81,3 +80,4 @@ class LogOutView(APIView):
         token.delete()
         return Response({'token_message': 'Token eliminado'},
                         status=status.HTTP_200_OK)
+
