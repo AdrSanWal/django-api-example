@@ -34,7 +34,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        return CustomUser.objects.create_user(**validated_data)
+        data = {'email': validated_data['email'],
+                'username': validated_data['username'],
+                'password': validated_data['password']}
+        return CustomUser.objects.create_user(**data)
 
     class Meta:
         model = CustomUser
